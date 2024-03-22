@@ -20,22 +20,24 @@ struct ContentView: View {
     }
 }
 
-//TEST CHANGE
 struct CardView: View {
-    var isFaceUp: Bool = false
+    //@State is temporary
+    @State var isFaceUp = false
     
     var body: some View {
         ZStack {
+            let base = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
             if isFaceUp {
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                    .strokeBorder(lineWidth: 2)
+                base.foregroundColor(.white)
+                base.strokeBorder(lineWidth: 2)
                 Text("👻")
                     .font(.largeTitle)
             } else {
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                base
             }
+        }
+        .onTapGesture {
+            isFaceUp.toggle()
         }
     }
 }
