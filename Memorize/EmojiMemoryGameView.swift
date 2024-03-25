@@ -12,8 +12,7 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGameViewModel
     
     
-    @State var cardCount: Int = 15
-    @State var theme: String = "foodTheme"
+
 
     var body: some View {
         VStack {
@@ -33,6 +32,9 @@ struct EmojiMemoryGameView: View {
                 CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
                     .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(card)
+                    }
             }
         }
         .foregroundColor(.orange)
@@ -59,34 +61,13 @@ struct EmojiMemoryGameView: View {
             
             Button(
                 action: {
-                    theme = "foodTheme"
+                    //TODO: new game button action
                 },
                 label: {
                     VStack {
-                        Image(systemName: "carrot.fill").font(.title)
-                        Text("Food")
-                    }
-                }
-            )
-            Button(
-                action: {
-                    theme = "animalTheme"
-                },
-                label: {
-                    VStack {
-                        Image(systemName: "dog.fill").font(.title)
-                        Text("Animals")
-                    }
-                }
-            )
-            Button(
-                action: {
-                    theme = "vehicleTheme"
-                },
-                label: {
-                    VStack {
-                        Image(systemName: "car.fill").font(.title)
-                        Text("Vehicles")
+                        //TODO: new game image
+                        Image(systemName: "shuffle").font(.title)
+                        Text("New Game")
                     }
                 }
             )
@@ -117,6 +98,7 @@ struct CardView: View {
             .opacity(card.isFaceUp ? 1 : 0 )
             base.fill().opacity(card.isFaceUp ? 0 : 1 )
         }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
