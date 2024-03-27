@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoryGameModel<CardContent> where CardContent : Equatable {
+struct MemoryGameModel{
     
     private(set) var cards: Array<Card>
     var indexOfOneChosenCard: Int? {
@@ -15,7 +15,11 @@ struct MemoryGameModel<CardContent> where CardContent : Equatable {
         set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
     }
     
-    init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
+    private(set) var gameTheme: (String, String, [String]) = ("","", [])
+    
+    
+    //MARK: - INIT
+    init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> String) {
         cards = []
         
         for pairIndex in 0..<numberOfPairsOfCards {
@@ -25,6 +29,7 @@ struct MemoryGameModel<CardContent> where CardContent : Equatable {
         }
     }
     
+    //MARK: - FUNCTIONS
     mutating func shuffle() {
         cards.shuffle()
     }
@@ -55,11 +60,11 @@ struct MemoryGameModel<CardContent> where CardContent : Equatable {
     }
     
 
-    
+    //MARK: - CARD
     struct Card : Equatable, Identifiable, CustomDebugStringConvertible {
         var isFaceUp = false
         var isMatched = false
-        let content: CardContent
+        let content: String
         var id: String
         var debugDescription: String {
             "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched" : "")"

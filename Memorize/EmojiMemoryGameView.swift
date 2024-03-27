@@ -11,23 +11,18 @@ struct EmojiMemoryGameView: View {
     
     @ObservedObject var viewModel: EmojiMemoryGameViewModel
     
-    
-
-
     var body: some View {
         VStack {
-            header
-            ScrollView {
-                cards
-                    .animation(.default, value: viewModel.cards)
-            }
+            cards
+                .animation(.default, value: viewModel.cards)
+            Divider()
             buttonStack
         }
         .padding()
     }
     
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), spacing: 0)], spacing: 0) {
             ForEach (viewModel.cards) { card in
                 CardView(card)
                     .aspectRatio(2/3, contentMode: .fit)
@@ -37,14 +32,10 @@ struct EmojiMemoryGameView: View {
                     }
             }
         }
-        .foregroundColor(.orange)
+        //TODO: make color associated with theme
+        .foregroundColor(viewModel.themeColor)
     }
     
-    var header: some View {
-        Text("Memorize!")
-            .font(.largeTitle)
-    }
-
     var buttonStack: some View {
         HStack(spacing: 20) {
             Button(
@@ -53,20 +44,28 @@ struct EmojiMemoryGameView: View {
                 },
                 label: {
                     VStack {
-                        Image(systemName: "shuffle").font(.title)
+                        Image(systemName: "shuffle.circle").font(.title)
                         Text("Shuffle")
                     }
                 }
             )
             
+            Spacer()
+            
+            //TODO: make theme name 
+            Text(viewModel.themeName)
+                .font(.title3)
+            
+            Spacer()
+
+            
             Button(
                 action: {
-                    //TODO: new game button action
+                    viewModel.newGame()
                 },
                 label: {
                     VStack {
-                        //TODO: new game image
-                        Image(systemName: "shuffle").font(.title)
+                        Image(systemName: "plus.circle").font(.title)
                         Text("New Game")
                     }
                 }
@@ -78,9 +77,9 @@ struct EmojiMemoryGameView: View {
 
 struct CardView: View {
 
-    let card: MemoryGameModel<String>.Card
+    let card: MemoryGameModel.Card
     
-    init(_ card: MemoryGameModel<String>.Card) {
+    init(_ card: MemoryGameModel.Card) {
         self.card = card
     }
     
@@ -105,5 +104,3 @@ struct CardView: View {
 #Preview {
     EmojiMemoryGameView(viewModel: EmojiMemoryGameViewModel())
 }
-
-    
