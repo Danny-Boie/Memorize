@@ -50,13 +50,13 @@ struct EmojiMemoryGameView: View {
                 }
             )
             
-            Spacer()
             
-            //TODO: make theme name 
             Text(viewModel.themeName)
                 .font(.title3)
             
-            Spacer()
+            Text(String(viewModel.score))
+                .font(.title3)
+            
 
             
             Button(

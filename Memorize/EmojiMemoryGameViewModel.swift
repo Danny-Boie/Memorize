@@ -17,19 +17,25 @@ class EmojiMemoryGameViewModel: ObservableObject {
     
     @Published var themeName: String = ""
     @Published var themeColor: Color = Color.orange
+    @Published var score: Int = 0
+    
     var themeEmojis: [String] = []
     var currentThemeKey: String = ""
     
-    
+    init() {
+        newGame()
+    }
     
     
     //MARK: - Intents
     func newGame() {
         if let randomKey = themeKeys.randomElement() {
+            score = 0
             if (randomKey != currentThemeKey) {
                 if let randomTheme = themes[randomKey] {
                     let (dataThemeName, dataThemeColor, dataThemeEmojis) = randomTheme
                     
+                    currentThemeKey = randomKey
                     themeName = dataThemeName
                     themeEmojis = dataThemeEmojis
                     switch dataThemeColor.lowercased() {
@@ -71,6 +77,6 @@ class EmojiMemoryGameViewModel: ObservableObject {
     }
     
     func choose(_ card: MemoryGameModel.Card) {
-        model.choose(card)
+        score = model.choose(card)
     }
 }
